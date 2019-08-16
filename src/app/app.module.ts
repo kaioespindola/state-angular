@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { ShoppingReducer } from './store/reducers/shopping.reducer';
+import { EnderecoReducer } from './store/reducers/endereco.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { HeaderComponent } from './header/header.component';
@@ -29,7 +30,8 @@ import { ShoppingEditComponent } from './shopping-list/shopping-edit/shopping-ed
     FormsModule,
     ReactiveFormsModule,
     StoreModule.forRoot({
-      shopping: ShoppingReducer
+      shopping: ShoppingReducer,
+      endereco: EnderecoReducer
     }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],

@@ -26,9 +26,9 @@
 
 <div>
 
-  <form (mouseleave)="updateEnderecoBloco()">
+  <div (mouseleave)="updateEnderecoBloco()" (blur)="updateEnderecoBloco()">
 
-    <input type="number" [(ngModel)]="enderecoSegurado.cep" placeholder="Cep" (blur)="updateFormItem()" name="cep">
+    <input type="text" [(ngModel)]="enderecoSegurado.cep" placeholder="Cep" (blur)="updateFormItem()" name="cep">
 
     <input type="text" [(ngModel)]="enderecoSegurado.logradouro" placeholder="Logradouro" (blur)="updateFormItem()" name="logradouro">
 
@@ -42,12 +42,14 @@
 
     <input type="text" [(ngModel)]="enderecoSegurado.estado" placeholder="Estado" (blur)="updateFormItem()" name="Estado">
 
-    <button (click)="sendData()">Enviar Dados</button>
-
-  </form>
-
-  <br>
+  </div>
 
   {{ enderecoSegurado | json }}
+
+  <div (mouseenter)="updateEnderecoBloco()">
+    <input type="number" placeholder="Telefone" name="Telefone">
+  </div>
+
+  <br>
 
 </div>

@@ -3,9 +3,10 @@ import { Store } from '@ngrx/store';
 import { AppState } from './store/models/app-state.model';
 import { ShoppingItem } from './store/models/shopping-item.model';
 import { Observable } from 'rxjs';
-import { AddItemAction, RemoveItemAction, ResetStateAction } from './store/actions/shopping.actions';
+import { AddItemAction, RemoveItemAction } from './store/actions/shopping.actions';
 import { FormGroup, FormControl } from '@angular/forms';
 import { EnderecoSegurado } from './models/endereco-segurado';
+import { AddEnderecoAction, ResetStateAction } from './store/actions/endereco.actions';
 
 @Component({
   selector: 'app-root',
@@ -18,22 +19,28 @@ export class AppComponent implements OnInit{
   shoppingItems: Observable<Array<ShoppingItem>>;
   newShoppingItem: ShoppingItem = { id: `${Math.random()}`, name: "" };
 
-  enderecoSegurado: EnderecoSegurado = {
-    cep: '',
-    logradouro: '',
-    numeroLogradouro: '',
-    complemento: '',
-    bairro: '',
-    cidade: '',
-    estado: ''
-  };
+  enderecoSegurado: EnderecoSegurado;
 
   constructor(private store: Store<AppState>) {
-    console.log(this.enderecoSegurado);
   }
 
   ngOnInit() {
     this.shoppingItems = this.store.select(store => store.shopping);
+    let endereco = this.store.select(store => store.endereco);
+    endereco.subscribe(endereco => {
+      this.enderecoSegurado = endereco;
+
+      this.enderecoSegurado = {
+        cep: '79013-000',
+        logradouro: '',
+        numeroLogradouro: '',
+        complemento: '',
+        bairro: 'Liberdade',
+        cidade: '',
+        estado: 'São Paulo'
+      }
+
+    })
   }
 
   addItem() {
@@ -49,7 +56,23 @@ export class AppComponent implements OnInit{
     this.store.dispatch(new ResetStateAction());
   }
 
+  updateFormItem() {
+    console.log(this.enderecoSegurado);
+    this.store.dispatch(new AddEnderecoAction(this.enderecoSegurado));
+  }
+
   updateEndereco() {
     console.log(this.enderecoSegurado);
+  }
+
+  resetForm() {
+    this.store.dispatch(new ResetStateAction())
+  }
+
+  updateEnderecoBloco() {
+    let endereco = this.store.select(store => store.endereco);
+    endereco.subscribe(endereco => {
+      console.log('Enviando para servidor endereço:', endereco);
+    })
   }
 }
